@@ -76,24 +76,23 @@ def returnm_size_on_hovering(event):
     minimize_button['bg']= rGray
     
 
-def get_pos(event): # this is executed when the title bar is clicked to move the window
+def get_pos(event): # This is to be run if the User decides to move the App Window
     if mainBox.maximized == False:
  
         xwin = mainBox.winfo_x()
         ywin = mainBox.winfo_y()
-        startx = event.x_mainBox
-        starty = event.y_mainBox
+        startx = event.x_root
+        starty = event.y_root
 
         ywin = ywin - starty
         xwin = xwin - startx
 
-        
-        def move_window(event): # runs when window is dragged
+        def move_window(event): # Execute when window is dragged
             mainBox.config(cursor="fleur")
-            mainBox.geometry(f'+{event.x_mainBox + xwin}+{event.y_mainBox + ywin}')
+            mainBox.geometry(f'+{event.x_root + xwin}+{event.y_root + ywin}')
 
 
-        def release_window(event): # runs when window is released
+        def release_window(event): # Execute when window is released
             mainBox.config(cursor="arrow")
             
             
@@ -106,23 +105,23 @@ def get_pos(event): # this is executed when the title bar is clicked to move the
         mainBox.maximized = not mainBox.maximized
 
 
-# ---------- Main Config -----------
+# ---------- Main Config for Windows -----------
 
 winTitle = "Screen Recorder" # Window Title
 
-mainBox = Tk() # Main Window
+mainBox = Tk() # Window
 mainBox.title(winTitle) 
 mainBox.overrideredirect(True) # Removes title bar
-mainBox.geometry('700x200+75+75')
-mainBox.resizable(False, False)
+mainBox.geometry('700x200+75+75') # Window Dimensions
+mainBox.resizable(False, False)   # Fixed --> Not resizable
 mainBox.minimized = False
 mainBox.maximized = False
-
-
 mainBox.config(bg="#25292e")
+
 
 title_bar = Frame(mainBox, bg=rGray, relief='raised', bd=0, highlightthickness=0)
 
+# Buttons for the Title Bar
 close_button = Button(title_bar, text='  ×  ', command=mainBox.destroy,bg=rGray,padx=2,pady=2,font=("calibri", 13),bd=0,fg='white',highlightthickness=0)
 expand_button = Button(title_bar, text=' 🗖 ', command=maximize_me,bg=rGray,padx=2,pady=2,bd=0,fg='white',font=("calibri", 13),highlightthickness=0)
 minimize_button = Button(title_bar, text=' 🗕 ',command=minimize_me,bg=rGray,padx=2,pady=2,bd=0,fg='white',font=("calibri", 13),highlightthickness=0)
@@ -140,6 +139,22 @@ window.pack(expand=1, fill=BOTH)
 
 title_bar.bind('<Button-1>', get_pos) # For dragging window
 title_bar_title.bind('<Button-1>', get_pos)
+
+# Button Effects
+close_button.bind('<Enter>',changex_on_hovering)
+close_button.bind('<Leave>',returnx_to_normalstate)
+expand_button.bind('<Enter>', change_size_on_hovering)
+expand_button.bind('<Leave>', return_size_on_hovering)
+minimize_button.bind('<Enter>', changem_size_on_hovering)
+minimize_button.bind('<Leave>', returnm_size_on_hovering)
+
+mainBox.bind("<FocusIn>",deminimize)
+mainBox.after(10, lambda: set_appwindow(mainBox))
+
+# --------------- Screen Recorder Code -----------------
+
+
+
 
 mainBox.mainloop()
 
