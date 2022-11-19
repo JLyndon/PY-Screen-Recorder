@@ -1,5 +1,6 @@
 from tkinter import *
 from ctypes import windll
+from datetime import date
 import pyscreenrec as pys
 
 Gray = '#3e4042' # Hex Color Codes
@@ -104,6 +105,21 @@ def get_pos(event): # This is to be run if the User decides to move the App Wind
         expand_button.config(text=" 🗖 ")
         mainBox.maximized = not mainBox.maximized
 
+# ---------- Functions for Screen Recording ------------
+
+def start_record():
+    fileN = usrFile.get()
+    scRecord.start_recording(str(fileN + ".mp4"), 15)
+
+def pause_record():
+    scRecord.pause_recording()
+
+def resume_record():
+    scRecord.resume_recording()
+
+def stop_record():
+    scRecord.stop_recording()
+
 
 # ---------- Main Config for Windows -----------
 
@@ -118,6 +134,7 @@ mainBox.minimized = False
 mainBox.maximized = False
 mainBox.config(bg="#25292e")
 
+scRecord = pys.ScreenRecorder()
 
 title_bar = Frame(mainBox, bg=rGray, relief='raised', bd=0, highlightthickness=0)
 
@@ -154,21 +171,41 @@ mainBox.after(10, lambda: set_appwindow(mainBox))
 # --------------- Screen Recorder Code -----------------
 
 firstbutton = PhotoImage(file="Start_Button.png")
-startBtn = Button(mainBox, image=firstbutton, bd=0, bg=dGray, width=80, height=80, activebackground=dGray)
+startBtn = Button(mainBox, image=firstbutton, bd=0, bg=dGray, width=80, height=80, activebackground=dGray, command=start_record)
 startBtn.place(x=45, y=51)
 
 secbutton = PhotoImage(file="Resume_Buttonsmall.png")
-resumeBtn = Button(mainBox, image=secbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
-resumeBtn.place(x=165, y=71)
+resumeBtn = Button(mainBox, image=secbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray, command=resume_record)
+resumeBtn.place(x=165, y=56)
+
+label1 = Label(mainBox, text="Resume", bg=dGray, font="calibri 12", fg="#6A757E")
+label1.place(x=165, y=111)
 
 thrbutton = PhotoImage(file="Pause_Buttonsmall.png")
-pauseBtn = Button(mainBox, image=thrbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
-pauseBtn.place(x=240, y=71)
+pauseBtn = Button(mainBox, image=thrbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray, command=pause_record)
+pauseBtn.place(x=240, y=56)
+
+label2 = Label(mainBox, text="Pause", bg=dGray, font="calibri 12", fg="#6A757E")
+label2.place(x=245, y=111)
 
 frbutton = PhotoImage(file="Stop_Buttonsmall.png")
-pauseBtn = Button(mainBox, image=frbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
-pauseBtn.place(x=315, y=71)
+pauseBtn = Button(mainBox, image=frbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray, command=stop_record)
+pauseBtn.place(x=315, y=56)
 
+label3 = Label(mainBox, text="Stop", bg=dGray, font="calibri 12", fg="#6A757E")
+label3.place(x=325, y=111)
+
+
+timeOfSave = date.today()
+tempSaveName = " recording_" + timeOfSave.strftime("%b-%d-%Y")
+
+usrFile = StringVar()
+saveFile = Entry(mainBox, textvariable=usrFile, width=20, font="arial 11", background="#6f6f6f", fg="#fff")
+saveFile.place(x=420, y=75)
+usrFile.set(tempSaveName)
+
+labelsave = Label(mainBox, text="Filename", bg=dGray, font="calibri 12", fg="#6A757E")
+labelsave.place(x=425, y=50)
 
 mainBox.mainloop()
 
