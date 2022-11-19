@@ -1,11 +1,12 @@
 from tkinter import *
 from ctypes import windll
-from datetime import date
+from datetime import datetime
 import pyscreenrec as pys
 
 Gray = '#3e4042' # Hex Color Codes
 dGray = '#373940' 
 rGray = '#232530' 
+
 
 def set_appwindow(mainWindow): # Display the window icon on the taskbar, 
 
@@ -109,7 +110,8 @@ def get_pos(event): # This is to be run if the User decides to move the App Wind
 
 def start_record():
     fileN = usrFile.get()
-    scRecord.start_recording(str(fileN + ".mp4"), 15)
+    comName = str(fileN + ".mp4")
+    scRecord.start_recording(comName, 30)
 
 def pause_record():
     scRecord.pause_recording()
@@ -172,7 +174,7 @@ mainBox.after(10, lambda: set_appwindow(mainBox))
 
 firstbutton = PhotoImage(file="Start_Button.png")
 startBtn = Button(mainBox, image=firstbutton, bd=0, bg=dGray, width=80, height=80, activebackground=dGray, command=start_record)
-startBtn.place(x=45, y=51)
+startBtn.place(x=45, y=48)
 
 secbutton = PhotoImage(file="Resume_Buttonsmall.png")
 resumeBtn = Button(mainBox, image=secbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray, command=resume_record)
@@ -196,8 +198,8 @@ label3 = Label(mainBox, text="Stop", bg=dGray, font="calibri 12", fg="#6A757E")
 label3.place(x=325, y=111)
 
 
-timeOfSave = date.today()
-tempSaveName = " recording_" + timeOfSave.strftime("%b-%d-%Y")
+timeOfSave = datetime.now()
+tempSaveName = " recording_" + timeOfSave.strftime("%d-%m-%Y_%H-%M-%S")
 
 usrFile = StringVar()
 saveFile = Entry(mainBox, textvariable=usrFile, width=20, font="arial 11", background="#6f6f6f", fg="#fff")
