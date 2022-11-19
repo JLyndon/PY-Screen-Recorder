@@ -112,7 +112,7 @@ winTitle = "Screen Recorder" # Window Title
 mainBox = Tk() # Window
 mainBox.title(winTitle) 
 mainBox.overrideredirect(True) # Removes title bar
-mainBox.geometry('700x200+75+75') # Window Dimensions
+mainBox.geometry('700x150+75+75') # Window Dimensions
 mainBox.resizable(False, False)   # Fixed --> Not resizable
 mainBox.minimized = False
 mainBox.maximized = False
@@ -153,7 +153,21 @@ mainBox.after(10, lambda: set_appwindow(mainBox))
 
 # --------------- Screen Recorder Code -----------------
 
+firstbutton = PhotoImage(file="Start_Button.png")
+startBtn = Button(mainBox, image=firstbutton, bd=0, bg=dGray, width=80, height=80, activebackground=dGray)
+startBtn.place(x=45, y=51)
 
+secbutton = PhotoImage(file="Resume_Buttonsmall.png")
+resumeBtn = Button(mainBox, image=secbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
+resumeBtn.place(x=165, y=71)
+
+thrbutton = PhotoImage(file="Pause_Buttonsmall.png")
+pauseBtn = Button(mainBox, image=thrbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
+pauseBtn.place(x=240, y=71)
+
+frbutton = PhotoImage(file="Stop_Buttonsmall.png")
+pauseBtn = Button(mainBox, image=frbutton, bd=0, bg=dGray, width=55, height=55, activebackground=dGray)
+pauseBtn.place(x=315, y=71)
 
 
 mainBox.mainloop()
